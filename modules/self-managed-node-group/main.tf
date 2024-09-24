@@ -115,7 +115,7 @@ locals {
 ################################################################################
 
 locals {
-  launch_template_name = coalesce(var.launch_template_name, "${var.name}-node-group")
+  launch_template_name = coalesce(var.launch_template_name, "${var.name}")
   security_group_ids   = compact(concat([var.cluster_primary_security_group_id], var.vpc_security_group_ids))
 
   placement = local.enable_efa_support ? { group_name = aws_placement_group.this[0].name } : var.placement
@@ -786,7 +786,7 @@ resource "aws_autoscaling_group" "this" {
 locals {
   create_iam_instance_profile = var.create && var.create_iam_instance_profile
 
-  iam_role_name          = coalesce(var.iam_role_name, "${var.name}-node-group")
+  iam_role_name          = coalesce(var.iam_role_name, "${var.name}")
   iam_role_policy_prefix = "arn:${data.aws_partition.current.partition}:iam::aws:policy"
 
   ipv4_cni_policy = { for k, v in {
